@@ -7,7 +7,7 @@
 
 		zeroPad: function(number) {
 			var s = number.toString();
-			var formattedNumer = (s.length > 1) ? s : "0" + s;
+			var formattedNumber = (s.length > 1) ? s : "0" + s;
 			return formattedNumber;
 		}
 	};
