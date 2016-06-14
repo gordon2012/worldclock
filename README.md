@@ -8,3 +8,4 @@ A mobile web app following chapter 1 of Seven Mobile Apps in Seven Weeks
 	- Building a Way to Namespace Classes
 	- Showing the Time
 	- Managing Timezones
+	- Loading Timezones from the API
