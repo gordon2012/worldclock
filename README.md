@@ -7,3 +7,4 @@ A mobile web app following chapter 1 of Seven Mobile Apps in Seven Weeks
 - Creating the Business Logic Classes
 	- Building a Way to Namespace Classes
 	- Showing the Time
+	- Managing Timezones
