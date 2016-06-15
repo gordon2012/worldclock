@@ -9,3 +9,5 @@ A mobile web app following chapter 1 of Seven Mobile Apps in Seven Weeks
 	- Showing the Time
 	- Managing Timezones
 	- Loading Timezones from the API
+	- add option to format time to 12 hour time
+- Creating Clocks

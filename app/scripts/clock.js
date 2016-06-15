@@ -1,23 +1,46 @@
 (function($) {
 	var Clock = {
-		tick: function(hourType) {
-			var hourType = hourType || false;
+		tick: function() {
+			var date = new Date(),
+					tzManager = $.app.namespaces.managers.TimeZoneManager,
+					zones = tzManager.savedZones(true);
 
-			var date = new Date();
+			var updateClockAtIndex = function(index, element) {
+				var zone = zones[index],
+						formattedTime = this.convertAndFormatDate(zone.offset, date);
+				$(element).text(formattedTime);
+			};
 
-			var hours = date.getHours();
-			hours = hourType ? (hours == 12 ? 12 : hours % 12) : hours;
+			updateClockAtIndex = _.bind(updateClockAtIndex, this);
+			$(".clock").each(updateClockAtIndex);
+		},
 
-			var text = "" + hours + ":" + this.zeroPad(date.getMinutes()) + ":" + this.zeroPad(date.getSeconds()) + " " + (hourType ? (date.getHours() >= 12 ? "pm" : "am") : "");
-
-			$(".clock").text(text);
+		convertAndFormatDate: function(offset, date) {
+			var convertedSeconds = date.getUTCMinutes() * 60 + date.getUTCHours() * 3600 + offset,
+					hour = Math.floor(convertedSeconds / 3600),
+					minutes = Math.abs(Math.floor((convertedSeconds - (hour * 3600)) / 60));
+			if(hour < 0) {
+				hour = hour + 24;
+			}
+			else if(hour >= 24) {
+				hour = hour - 24;
+			}
+			var formattedTime = this.zeroPad(hour) + ":" + this.zeroPad(minutes);
+			return formattedTime;
 		},
 
 		zeroPad: function(number) {
 			var s = number.toString();
 			var formattedNumber = (s.length > 1) ? s : "0" + s;
 			return formattedNumber;
+		},
+
+		start: function() {
+			this.tick();
+			var tickFunction = _.bind(this.tick, this);
+			setInterval(tickFunction, 1000);
 		}
+		
 	};
 
 	$.app.register("models.Clock", Clock);
