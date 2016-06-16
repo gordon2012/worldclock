@@ -8,11 +8,12 @@
 			var updateClockAtIndex = function(index, element) {
 				var zone = zones[index],
 						formattedTime = this.convertAndFormatDate(zone.offset, date);
+
 				$(element).text(formattedTime);
 			};
 
 			updateClockAtIndex = _.bind(updateClockAtIndex, this);
-			$(".clock").each(updateClockAtIndex);
+			$('.clock-time').each(updateClockAtIndex);
 		},
 
 		convertAndFormatDate: function(offset, date) {
@@ -40,7 +41,7 @@
 			var tickFunction = _.bind(this.tick, this);
 			setInterval(tickFunction, 1000);
 		}
-		
+
 	};
 
 	$.app.register("models.Clock", Clock);

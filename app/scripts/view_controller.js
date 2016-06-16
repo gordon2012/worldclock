@@ -5,18 +5,30 @@
 			timeZoneManager = namespaces.managers.TimeZoneManager,
 			clockList = $('#clockList'),
 			zoneList = $('#zoneList'),
-			addClockLink = $('a#addClockLink');
+			addClockLink = $('a#addClockLink'),
+			editLink = $('a#editLink');
 
 	var MainViewController = {
 		initialize: function() {
-			this.openZoneListFunction = _.bind(this.addClockClicked, this);
-			this.closeZoneListFunction = _.bind(this.dismissZoneList, this);
-			addClockLink.click(this.openZoneListFunction);
+
+			this.configureListeners();
+
 			zoneList.hide();
 			this.refreshClockList();
 			clock.start();
 
 			timeZoneManager.fetchTimeZones();
+		},
+
+		configureListeners: function() {
+			this.openZoneListFunction = _.bind(this.addClockClicked, this);
+			this.closeZoneListFunction = _.bind(this.dismissZoneList, this);
+			this.editFunction = _.bind(this.presentEditMode, this);
+			this.doneEditingFunction = _.bind(this.dismissEditMode, this);
+			this.deleteFunction = _.bind(this.deleteClockClicked, this);
+
+			addClockLink.click(this.openZoneListFunction);
+			editLink.click(this.editFunction);
 		},
 
 		addClockClicked: function() {
@@ -55,9 +67,54 @@
 		},
 
 		refreshClockList: function() {
+			var zones = timeZoneManager.savedZones(true),
+					template = $('#clockTemplate').text();
+
 			clockList.empty();
-			timeZoneManager.createClocksIn(clockList);
+
+			_.each(zones, function(zone, index) {
+				this.createClock(zone, index, template);
+			}, this);
+
+			$('.delete-clock-link').hide();
+			this.dismissEditMode();
+
 			clock.tick();
+		},
+
+		createClock: function(zone, index, template) {
+			var item = $(Mustache.render(template, zone)),
+					deleteLink = item.find('.delete-clock-link');
+
+			if(zone.isCurrent) {
+				deleteLink.remove();
+			} else {
+				deleteLink.data('clockIndex', index - 1);
+				deleteLink.click(this.deleteFunction)
+			}
+
+			clockList.append(item);
+		},
+
+		deleteClockClicked: function(event) {
+			var clickedLink = $(event.currentTarget),
+					index = clickedLink.data('clockIndex'),
+					parentDiv = clickedLink.parents('.clock');
+			timeZoneManager.deleteZoneAtIndex(index);
+			// TODO: fix clock not being removed when delete clicked top to bottom
+			parentDiv.remove();
+		},
+
+		presentEditMode: function() {
+			$('.delete-clock-link').show();
+			editLink.text('Done');
+			editLink.off('click').click(this.doneEditingFunction);
+		},
+
+		dismissEditMode: function() {
+			$('.delete-clock-link').hide();
+			editLink.text('Edit');
+			editLink.off('click').click(this.editFunction);
 		}
 
 	}

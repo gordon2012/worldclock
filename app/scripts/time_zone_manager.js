@@ -24,7 +24,8 @@
 					name: "Current",
 					zone_name: "Current",
 					offset: -offsetMinutes * 60,
-					formatted_offset: this.formatOffsetMinutes(-offsetMinutes)
+					formatted_offset: this.formatOffsetMinutes(-offsetMinutes),
+					isCurrent: true
 				});
 			}
 			return zones.concat(this.savedTimeZones);
@@ -38,7 +39,7 @@
 			return offsetHours;
 		},
 
-		createClocksIn: function(list) {
+		__createClocksIn: function(list) {
 			var zones = this.savedZones(true);
 			_.each(zones, function(zone) {
 				var item = $('<li class="clock"/>');
@@ -53,6 +54,10 @@
 
 		allZones: function() {
 			return this.timeZones;
+		},
+
+		deleteZoneAtIndex: function(index) {
+			this.savedTimeZones.splice(index, 1);
 		}
 
 	};
