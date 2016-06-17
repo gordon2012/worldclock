@@ -2,16 +2,49 @@
 	var TimeZoneManager = {
 		savedTimeZones: [],
 
+		initialize: function() {
+			if(!navigator.onLine) {
+				this.loadLocalTimeZones();
+			} else {
+				var completion = _.bind(function(zones) {
+					this.storeTimeZonesLocally(zones);
+				}, this);
+				this.fetchTimeZones(completion);
+			}
+		},
+
+		loadLocalTimeZones: function() {
+			var localZones = localStorage.allTimeZones;
+			if(localZones) {
+				this.zonesLoaded(JSON.parse(localZones));
+			} else {
+				// no timezone data available
+			}
+		},
+
+		storeTimeZonesLocally: function(zones) {
+			localStorage.allTimeZones = JSON.stringify(zones);
+		},
+
+		zonesLoaded: function(zones) {
+			this.timeZones = zones;
+		},
+
 		fetchTimeZones: function(completion) {
 			var successFunction = _.bind(function(data) {
-				this.timeZones = data;
+				this.zonesLoaded(data);
 				if(completion) completion(data);
+			}, this);
+
+			var errorFunction = _.bind(function() {
+				this.loadLocalTimeZones();
 			}, this);
 
 			$.ajax({
 				url: 'http://localhost:3000/clock/time_zones',
 				headers: { Accept: 'application/json'},
-				success: successFunction
+				success: successFunction,
+				error: errorFunction
 			});
 		},
 

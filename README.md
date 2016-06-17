@@ -12,3 +12,10 @@ A mobile web app following chapter 1 of Seven Mobile Apps in Seven Weeks
 	- add option to format time to 12 hour time
 - Creating Clocks
 - Managing Clocks
+- Caching in Web Storage
+
+TODO:
+- Saving Clocks Locally
+- Caching Code in the Application Cache
+- Loading the App like a Native App
+- Making the App Responsive

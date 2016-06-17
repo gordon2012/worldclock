@@ -17,7 +17,8 @@
 			this.refreshClockList();
 			clock.start();
 
-			timeZoneManager.fetchTimeZones();
+			//timeZoneManager.fetchTimeZones();
+			timeZoneManager.initialize();
 		},
 
 		configureListeners: function() {
