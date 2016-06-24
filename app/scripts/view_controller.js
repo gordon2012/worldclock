@@ -10,15 +10,13 @@
 
 	var MainViewController = {
 		initialize: function() {
-
 			this.configureListeners();
+
+			timeZoneManager.initialize();
 
 			zoneList.hide();
 			this.refreshClockList();
 			clock.start();
-
-			//timeZoneManager.fetchTimeZones();
-			timeZoneManager.initialize();
 		},
 
 		configureListeners: function() {
@@ -68,6 +66,7 @@
 		},
 
 		refreshClockList: function() {
+			//console.log('TZM: RCL');
 			var zones = timeZoneManager.savedZones(true),
 					template = $('#clockTemplate').text();
 

@@ -3,6 +3,8 @@
 		savedTimeZones: [],
 
 		initialize: function() {
+			this.loadSavedLocalTimeZones();
+
 			if(!navigator.onLine) {
 				this.loadLocalTimeZones();
 			} else {
@@ -14,11 +16,20 @@
 		},
 
 		loadLocalTimeZones: function() {
+			//console.log('TZM: LLTZ');
 			var localZones = localStorage.allTimeZones;
 			if(localZones) {
 				this.zonesLoaded(JSON.parse(localZones));
 			} else {
 				// no timezone data available
+			}
+		},
+
+		loadSavedLocalTimeZones: function() {
+			//console.log('TZM: LSLTZ');
+			var localSavedZones = localStorage.savedTimeZones;
+			if(localSavedZones) {
+				this.savedTimeZones = JSON.parse(localSavedZones);
 			}
 		},
 
@@ -83,6 +94,7 @@
 		saveZoneAtIndex: function(index) {
 			var zone = this.timeZones[index];
 			this.savedTimeZones.push(zone);
+			this.storeSavedTimeZonesLocally();
 		},
 
 		allZones: function() {
@@ -91,6 +103,11 @@
 
 		deleteZoneAtIndex: function(index) {
 			this.savedTimeZones.splice(index, 1);
+			this.storeSavedTimeZonesLocally();
+		},
+
+		storeSavedTimeZonesLocally: function() {
+			localStorage.savedTimeZones = JSON.stringify(this.savedTimeZones);
 		}
 
 	};
