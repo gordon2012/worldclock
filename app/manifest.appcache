@@ -14,3 +14,6 @@ CACHE:
 /scripts/clock.js
 /scripts/view_controller.js
 /images/favicon.png
+/node_modules/skeleton-css/css/normalize.css
+/node_modules/skeleton-css/css/skeleton.css
+/styles/styles.css

@@ -16,6 +16,4 @@ A mobile web app following chapter 1 of Seven Mobile Apps in Seven Weeks
 - Saving Clocks Locally
 - Caching Code in the Application Cache
 - Loading the App like a Native App
-
-TODO:
 - Making the App Responsive

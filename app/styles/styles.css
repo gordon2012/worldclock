@@ -1,0 +1,43 @@
+.clock {
+	margin-top: -0.5em;
+	margin-bottom: -0.5em;
+}
+
+.clock-time {
+	font-size: 2.2em;
+	font-weight: bold;
+	margin-bottom: -0.2em;
+}
+
+.clock-timezone {
+	color: #888888;
+}
+
+.timezone {
+	padding-left: 2em;
+}
+
+.timezone-name {
+	font-weight: bold;
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
+
+.timezone-offset {
+	color: #888888;
+}
+
+@media (min-width: 400px) {
+	.clock-time {
+		font-size: 2.2em;
+	}
+}
+
+@media (min-width: 550px) {
+	.clock-time {
+		font-size: 2.8em;
+	}
+	.clock-timezone {
+		font-size: 1.2em;
+	}
+}
